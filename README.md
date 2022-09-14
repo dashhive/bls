@@ -58,7 +58,7 @@ make
 After you run the above CMake command, you will then run `./build/src/runtest`.
 
 # Author(s)
-[William Merfalen - github/wmerfalen](https://github.com/wmerfalen)
+[William Merfalen - /wmerfalen](https://github.com/wmerfalen)
 
 # Options
 ``` sh
