@@ -25,27 +25,27 @@ extern "C" {
 
 using namespace bls;
 
-const std::vector<uint8_t> seed = {
+std::vector<uint8_t> seed = {
 	0,  50, 6,  244, 24,  199, 1,  25,  52,  88,  192,
 	19, 18, 12, 89,  6,   220, 18, 102, 58,  209, 82,
 	12, 62, 89, 110, 182, 9,   44, 20,  254, 22
 };
 
-std::vector<uint8_t> fix(const std::vector<uint8_t>& in) {
-	std::vector<uint8_t> fixed(in);
-	fixed[0] = 0x86;
-	return fixed;
-}
-
 
 void pk() {
-	PrivateKey sk = PrivateKey::FromByteVector(seed, true);
+	PrivateKey sk;
+	while(true) {
+		try {
+			sk = PrivateKey::FromBytes(bls::Bytes((const uint8_t*)&seed[0],seed.size()));
+			break;
+		} catch(...) {}
+	}
 	G1Element pk = sk.GetG1Element();
 	std::cout << "{\n";
 	std::cout << "  \"secret\": \"";
 	std::cout << Util::HexStr(sk.Serialize()) << "\",\n";
 	std::cout << "  \"public\": \"";
-	std::cout << G1Element::FromByteVector(fix(pk.Serialize())) << "\"\n";
+	std::cout << pk << "\"\n";
 	std::cout << "}\n";
 }
 
