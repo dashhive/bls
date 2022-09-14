@@ -62,8 +62,15 @@ After you run the above CMake command, you will then run `./build/src/runtest`.
 # Author
 William Merfalen
 
+# Options
+``` sh
+runtest --help -h /? /help              | help screen
+runtest --verbose -v /v /verbose        | verbosity. Can be specified more than once
+runtest --static-seed -s /s /staticSeed | use the hard-coded static seed (great for sanity checks)
+```
+
 # Version
-1.0
+v.1.1.0
 
 # Dash bounty
 TBD

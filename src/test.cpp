@@ -3,7 +3,7 @@ extern "C" {
 #include "relic.h"
 }
 #include "test-utils.hpp"
-#define DASH_BLS_VERSION "v.1.0.0"
+#define DASH_BLS_VERSION "v.1.1.0"
 
 using namespace bls;
 static uint8_t verbosity = 1;
