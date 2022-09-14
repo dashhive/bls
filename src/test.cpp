@@ -55,6 +55,21 @@ void log(std::string msg, uint8_t if_verbosity,std::size_t line=0) {
 #define DEBUG(A) log(A,3,__LINE__)
 #define ULTRAD(A) log(A,4,__LINE__)
 
+static void dump_json_keypair(const PrivateKey& sk) {
+	G1Element pk = sk.GetG1Element();
+	ULTRAD("Dumping json...");
+	std::cout << "{\n";
+	std::cout << "  \"secret\": \"";
+	ULTRAD("Dumping serialized Private Key (SK)");
+	std::cout << Util::HexStr(sk.Serialize()) << "\",\n";
+	ULTRAD("Dumped SK");
+	std::cout << "  \"public\": \"";
+	ULTRAD("Dumping serialized private key (PK)");
+	std::cout << Util::HexStr(pk.Serialize(true)) << "\"\n";
+	ULTRAD("Dumped PK");
+	std::cout << "}\n";
+	INFO("Done generating key pair JSON");
+}
 static void generate_keypair(bool use_random,output_format o_format) {
 	LOGGING("generate_keypair entry");
 	PrivateKey sk;
@@ -82,27 +97,16 @@ static void generate_keypair(bool use_random,output_format o_format) {
 		}
 	}
 	ULTRAD("Fetching Public Key Value");
-	G1Element pk = sk.GetG1Element();
-	ULTRAD("Public key value fetched");
 	uint8_t commands_ran = 0;
 	if(o_format & JSON_KEYPAIR) {
-		ULTRAD("Dumping json...");
-		std::cout << "{\n";
-		std::cout << "  \"secret\": \"";
-		ULTRAD("Dumping serialized Private Key (SK)");
-		std::cout << Util::HexStr(sk.Serialize()) << "\",\n";
-		ULTRAD("Dumped SK");
-		std::cout << "  \"public\": \"";
-		ULTRAD("Dumping serialized private key (PK)");
-		std::cout << Util::HexStr(pk.Serialize(true)) << "\"\n";
-		ULTRAD("Dumped PK");
-		std::cout << "}\n";
-		INFO("Done generating key pair JSON");
+		dump_json_keypair(sk);
 		++commands_ran;
 	}
 	if(o_format & DASH_FROM_SECRET_COMMAND) {
 		ULTRAD("Dumping dash-cli fromsecret command...");
 		std::cout << "./dash-cli bls fromsecret " << Util::HexStr(sk.Serialize()) << "\n";
+		std::cout << "\nEXPECTED OUTPUT:\n";
+		dump_json_keypair(sk);
 		++commands_ran;
 	}
 	if(!commands_ran) {
