@@ -45,7 +45,7 @@ void pk() {
 	std::cout << "  \"secret\": \"";
 	std::cout << Util::HexStr(sk.Serialize()) << "\",\n";
 	std::cout << "  \"public\": \"";
-	std::cout << pk << "\"\n";
+	std::cout << Util::HexStr(pk.Serialize(true)) << "\"\n";
 	std::cout << "}\n";
 }
 
