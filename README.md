@@ -64,13 +64,16 @@ William Merfalen
 
 # Options
 ``` sh
-runtest --help -h /? /help              | help screen
-runtest --verbose -v /v /verbose        | verbosity. Can be specified more than once
-runtest --static-seed -s /s /staticSeed | use the hard-coded static seed (great for sanity checks)
+ -s|--static-seed|/s|/staticSeed    : generate keypairs using static seed
+ -h|--help|/?|/help                 : print help screen
+ -v|--verbose|/verbose              : print verbose output. can be specified multiple times
+ --gen-dash-from-secret|-g|         
+   /genDashFromSecret               : generate dash-cli from-secret output
+ --print-json|-j|/printJSON         : print JSON keypairs (default)
 ```
 
 # Version
-v.1.1.0
+v.1.2.0
 
 # Dash bounty
 TBD
