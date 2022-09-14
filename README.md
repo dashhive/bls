@@ -51,14 +51,53 @@ It's the same way you'd build any CMake project:
 mkdir build
 cd build
 cmake ..
-make
+
+# if you want to compile on multiple cores, use make -j N where N is the number of cores
+# i.e.: make -j 4
+make 
+
+# There will be some error output related to python, but you can safely ignore that
+
+# Make sure the runtest binary is available
+ls -al ./src/runtest
+
+#-----------------------------------------
+# You're ready to start using the tool
+#-----------------------------------------
+
+# you would then run the binary located at (while still in the build directory)
+./src/runtest
+
+# Example: generate from the hard-coded static seed:
+./src/runtest --static-seed
+
+# Example: generate using a completely random seed: (just run it with no flags)
+./src/runtest
+
+# Example: generate a command to run dash-cli to verify a keypair
+./src/runtest -g
+
+# Example: generate dash-cli like above, but instead use the static seed:
+./src/runtest -g --static-seed 
+
+# Shortened version of above command
+./src/runtest -g -s
+
+# Example: display help page
+./src/runtest -h
+
+# Example: multiple verbose flags can increase verbosity. Up to 4 (which is lots of debug output)
+./src/runtest -v -v -v -v
+
+# Example: just print the JSON keypairs (not using static seed)
+# This is the same as just running the program with zero arguments
+./src/runtest -j
+
 ```
 
-# Again, where is the cli utility?
-After you run the above CMake command, you will then run `./build/src/runtest`.
+# Windows CLI switches
+Some basic support for Windows-like command line switches have been made. Try them out (refer to the Options section below). YMMV.
 
-# Author(s)
-[William Merfalen - /wmerfalen](https://github.com/wmerfalen)
 
 # Options
 ``` sh
@@ -70,8 +109,17 @@ After you run the above CMake command, you will then run `./build/src/runtest`.
  --print-json|-j|/printJSON         : print JSON keypairs (default)
 ```
 
+# Author(s)
+[William Merfalen - /wmerfalen](https://github.com/wmerfalen)
+
 # Version
 v.1.2.0
 
 # Dash bounty tasks
 - [x] [dashhive/bls-signatures-cli-tool/issues/1](https://github.com/dashhive/bls-signatures-cli-tool/issues/1)
+
+# TODO
+- [ ] Workflow for building on Linux x86-64, arm64 
+- [ ] Workflow for building on MacOS and M1
+- [ ] Workflow for building on Windows x86-64, arm64
+

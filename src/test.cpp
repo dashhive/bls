@@ -98,7 +98,7 @@ static void generate_keypair(bool use_random,output_format o_format) {
 	}
 	ULTRAD("Fetching Public Key Value");
 	uint8_t commands_ran = 0;
-	if(o_format & JSON_KEYPAIR) {
+	if(o_format & JSON_KEYPAIR && (!(o_format & DASH_FROM_SECRET_COMMAND))) {
 		dump_json_keypair(sk);
 		++commands_ran;
 	}
