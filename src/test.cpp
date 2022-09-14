@@ -31,15 +31,25 @@ const std::vector<uint8_t> seed = {
 	12, 62, 89, 110, 182, 9,   44, 20,  254, 22
 };
 
+std::vector<uint8_t> fix(const std::vector<uint8_t>& in) {
+	std::vector<uint8_t> fixed(in);
+	fixed[0] = 0x86;
+	return fixed;
+}
+
+
 void pk() {
 	PrivateKey sk = PrivateKey::FromByteVector(seed, true);
 	G1Element pk = sk.GetG1Element();
-	std::cout << "Private key: '" << Util::HexStr(sk.Serialize()) << "'\n";
-	std::cout << "Public key: '" << Util::HexStr(pk.Serialize()) << "'\n";
+	std::cout << "{\n";
+	std::cout << "  \"secret\": \"";
+	std::cout << Util::HexStr(sk.Serialize()) << "\",\n";
+	std::cout << "  \"public\": \"";
+	std::cout << G1Element::FromByteVector(fix(pk.Serialize())) << "\"\n";
+	std::cout << "}\n";
 }
 
 int main(int argc,char** argv) {
-	std::cout << "main()\n";
 	pk();
 	return 42;
 }
