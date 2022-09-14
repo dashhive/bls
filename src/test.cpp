@@ -51,5 +51,5 @@ void pk() {
 
 int main(int argc,char** argv) {
 	pk();
-	return 42;
+	return 0;
 }
