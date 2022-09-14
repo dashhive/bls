@@ -1,9 +1,7 @@
 # Before you begin
-STOP: This is not the repository you are looking for.
-
-The purpose of this code is to provide a very specific use-case for the Dash Incubator project. The BLS code in this repo has not been modified by me. I simply made this repo for a *very* specific internal purpose as requested by the folks running the Dash Incubator project.
-
-# AGAIN: THIS IS NOT THE REPO YOU ARE LOOKING FOR
+The purpose of this code is to provide a very specific use-case for the Dash Incubator project.
+The BLS code in this repo has not been modified by me.
+I simply made this repo for a *very* specific internal purpose as requested by the folks running the Dash Incubator project.
 
 # The original README.md
 The original `bls-signatures` README.md is at `VENDOR.md`.
@@ -59,8 +57,8 @@ make
 # Again, where is the cli utility?
 After you run the above CMake command, you will then run `./build/src/runtest`.
 
-# Author
-William Merfalen
+# Author(s)
+[William Merfalen - github/wmerfalen](https://github.com/wmerfalen)
 
 # Options
 ``` sh
@@ -75,5 +73,5 @@ William Merfalen
 # Version
 v.1.2.0
 
-# Dash bounty
-TBD
+# Dash bounty tasks
+- [x] [dashhive/bls-signatures-cli-tool/issues/1](https://github.com/dashhive/bls-signatures-cli-tool/issues/1)
