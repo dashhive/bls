@@ -123,3 +123,15 @@ v.1.2.0
 - [ ] Workflow for building on MacOS and M1
 - [ ] Workflow for building on Windows x86-64, arm64
 
+# Environments where this has been tested
+- [x] Devuan (fork of Debian)
+```
+Distributor ID:	Devuan
+Description:	Devuan GNU/Linux 4 (chimaera)
+Release:	4
+Codename:	chimaera
+
+cmake version 3.18.4
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+```
