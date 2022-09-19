@@ -1,13 +1,13 @@
 #!/bin/bash
 
-MAKE_CORES=8
+MAKE_CORES=1
 
 CMAKE_URL=https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2.tar.gz
 UTILS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 UTILS_DIR="${UTILS_DIR}/utils"
 
 # TODO: FIXME: point this to the base directory of bls-signatures
-SOURCE_DIR=${UTILS_DIR}/../../../
+SOURCE_DIR=${UTILS_DIR}/../../
 echo $SOURCE_DIR
 ls $SOURCE_DIR
 
