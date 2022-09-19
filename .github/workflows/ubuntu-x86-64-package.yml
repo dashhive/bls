@@ -4,7 +4,9 @@ jobs:
   check-bats-version:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Runs cmake fetch and install
-      - run: ./01-get-cmake.sh
+        run: ./01-get-cmake.sh
 
