@@ -7,14 +7,15 @@ UTILS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 UTILS_DIR="${UTILS_DIR}/utils"
 
 # TODO: FIXME: point this to the base directory of bls-signatures
-SOURCE_DIR=${UTILS_DIR}/../../
+SOURCE_DIR="/home/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool/"
+
 echo $SOURCE_DIR
 ls $SOURCE_DIR
 
 function get_cmake(){
 
 	# TODO: FIXME: remove socks5 stuff
-	CURL_OPTS='-4 --socks5 127.0.0.1:9090 -L'
+	CURL_OPTS='-4 -L'
 
 	CMAKE_DOWNLOAD="${UTILS_DIR}/cmake.tar.gz"
 	CMAKE_GZ="${UTILS_DIR}/cmake.tar.gz"
