@@ -1,15 +1,77 @@
-name: learn-github-actions
+name: build and publish binaries
 on: [push]
 jobs:
-  check-bats-version:
-    runs-on: ubuntu-20.04
+  build-windows-latest:
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Runs cmake fetch and install
-        run: ./.github/workflows/01-get-cmake.sh
+        run: |
+          curl -s https://codecov.io/bash | bash
+          bash ./.github/workflows/01-windows.sh /d/a/bls-signatures-private/bls-signatures-private
+        shell: bash
+      - name: Create Windows x86-64 binary
+        uses: actions/upload-artifact@v2
+        with: 
+          name: windows
+          path: D:\a\bls-signatures-private\bls-signatures-private\build\src\runtest.exe
+  #build-binary-ubuntu-22-04:
+  #  runs-on: ubuntu-22.04
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v3
 
-      - name: package and upload binary
-        run: ./.github/workflows/02-publish.sh '${{ secrets.GITHUB_TOKEN }}'
+  #    - name: Runs cmake fetch and install
+  #      run: ./.github/workflows/01-get-cmake.sh '/home/runner/work/bls-signatures-private/bls-signatures-private/'
+
+  #    - name: Create Ubuntu Jammy Jellyfish x86-64 binary
+  #      uses: actions/upload-artifact@v2
+  #      with: 
+  #        name: ubuntu-jammy-jellyfish-x86-64
+  #        path: ./build/src/runtest
+  #build-binary-ubuntu-20-04:
+  #  runs-on: ubuntu-20.04
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v3
+
+  #    - name: Runs cmake fetch and install
+  #      run: ./.github/workflows/01-get-cmake.sh '/home/runner/work/bls-signatures-private/bls-signatures-private/'
+
+  #    - name: Create Ubuntu Focal x86-64 binary
+  #      uses: actions/upload-artifact@v2
+  #      with: 
+  #        name: ubuntu-focal-x86-64
+  #        path: ./build/src/runtest
+  #build-binary-macos-12:
+  #  runs-on: macos-12
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v3
+
+  #    - name: Runs cmake fetch and install
+  #      run: ./.github/workflows/01-get-cmake.sh '/Users/runner/work/bls-signatures-private/bls-signatures-private'
+
+  #    - name: Create macos-12 binary
+  #      uses: actions/upload-artifact@v2
+  #      with: 
+  #        name: macos-12
+  #        path: ./build/src/runtest
+  #build-binary-macos-11:
+  #  runs-on: macos-11
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v3
+
+  #    - name: Runs cmake fetch and install
+  #      run: ./.github/workflows/01-get-cmake.sh '/Users/runner/work/bls-signatures-private/bls-signatures-private'
+
+  #    - name: Create macos-11 binary
+  #      uses: actions/upload-artifact@v2
+  #      with: 
+  #        name: macos-11
+  #        path: ./build/src/runtest
+
 

@@ -32,11 +32,6 @@ function get_cmake(){
 	tar xvf "$CMAKE_TAR"
 }
 
-function get_build_essential(){
-	sudo apt -y install build-essential gcc g++ make libssl-dev
-}
-
-
 function build_cmake(){
 	cd "$UTILS_DIR"
 
@@ -54,21 +49,19 @@ function build_cmake(){
 	make install
 }
 
-get_build_essential
-
-get_cmake
-
-export PATH="${UTILS_DIR}/cmake/bin:$PATH"
+#get_cmake
+#
+#export PATH="${UTILS_DIR}/cmake/bin:$PATH"
 
 cd $SOURCE_DIR
 
 BUILD_DIR=${SOURCE_DIR}/build
-if [[ -d "${BUILD_DIR}" ]]; then
-	rm -rf "${BUILD_DIR}"
-fi
+#if [[ -d "${BUILD_DIR}" ]]; then
+#	rm -rf "${BUILD_DIR}"
+#fi
 
-mkdir "${BUILD_DIR}"
-cd "${BUILD_DIR}"
+mkdir build
+cd build
 cmake ..
 
-make 
+cmake --build .
