@@ -10,3 +10,6 @@ jobs:
       - name: Runs cmake fetch and install
         run: ./.github/workflows/01-get-cmake.sh
 
+      - name: package and upload binary
+        run: ./.github/workflows/02-publish.sh '${{ secrets.GITHUB_TOKEN }}'
+
