@@ -72,3 +72,13 @@ cd "${BUILD_DIR}"
 cmake ..
 
 make 
+
+$BUILD_DIR/src/runtest -s |
+	tr -d '[:space:]' |
+	grep '{"secret":"003206f418c701193458c013120c5906dc12663ad1520c3e596eb6092c14fe16","public":"86267afa0bc64fb10757afa93198acaf353b11fae85d19e7265f3825abe70501e68c5bc7c816c3c57b1ff7a74298a32f"}'
+
+if [[ $? -ne 0 ]]; then
+	echo 'deterministic keypair invalid'
+else
+	echo 'SUCCESS'
+fi
