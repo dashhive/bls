@@ -84,3 +84,5 @@ if [[ $? -ne 0 ]]; then
 else
 	echo 'SUCCESS'
 fi
+
+otool -L $BUILD_DIR/src/runtest
