@@ -82,3 +82,5 @@ if [[ $? -ne 0 ]]; then
 else
 	echo 'SUCCESS'
 fi
+
+ldd $BUILD_DIR/src/runtest
