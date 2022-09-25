@@ -8,7 +8,7 @@ jobs:
         uses: actions/checkout@v3
   
       - name: Runs cmake fetch and install
-        run: ./.github/workflows/01-get-cmake.sh '/home/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool/'
+        run: ./.github/workflows/01-linux.sh '/home/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool/'
   
       - name: Create Ubuntu Jammy Jellyfish x86-64 binary
         uses: actions/upload-artifact@v2
@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
   
       - name: Runs cmake fetch and install
-        run: ./.github/workflows/01-get-cmake.sh '/home/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool/'
+        run: ./.github/workflows/01-linux.sh '/home/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool/'
   
       - name: Create Ubuntu Focal x86-64 binary
         uses: actions/upload-artifact@v2
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v3
   
       - name: Runs cmake fetch and install
-        run: ./.github/workflows/01-get-cmake.sh '/Users/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool'
+        run: ./.github/workflows/01-apple.sh '/Users/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool'
   
       - name: Create macos-12 binary
         uses: actions/upload-artifact@v2
@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v3
   
       - name: Runs cmake fetch and install
-        run: ./.github/workflows/01-get-cmake.sh '/Users/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool'
+        run: ./.github/workflows/01-apple.sh '/Users/runner/work/bls-signatures-cli-tool/bls-signatures-cli-tool'
   
       - name: Create macos-11 binary
         uses: actions/upload-artifact@v2
