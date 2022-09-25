@@ -58,6 +58,8 @@ get_build_essential
 
 get_cmake
 
+xcode-select --install
+
 export PATH="${UTILS_DIR}/cmake/bin:$PATH"
 
 cd $SOURCE_DIR
