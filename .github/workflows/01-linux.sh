@@ -58,8 +58,6 @@ get_build_essential
 
 get_cmake
 
-xcode-select --install
-
 export PATH="${UTILS_DIR}/cmake/bin:$PATH"
 
 cd $SOURCE_DIR
@@ -84,5 +82,3 @@ if [[ $? -ne 0 ]]; then
 else
 	echo 'SUCCESS'
 fi
-
-otool -L $BUILD_DIR/src/runtest
