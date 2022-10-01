@@ -127,18 +127,20 @@ static bool multi_cmp_or(const std::string& argv, const std::vector<std::string>
 	}
 	return false;
 }
+static void version() {
+	std::cout << DASH_BLS_VERSION << "\n";
+}
 static void usage(const char* exe) {
 	std::cout <<
 	    "Usage: " << exe << " [options]\n" <<
 	    "\n" <<
 	    "Options:\n" <<
-	    " -s|--static-seed|/s|/staticSeed    : generate keypairs using static seed\n" <<
-	    " -h|--help|/?|/help                 : print this help screen\n" <<
-	    " -v|--verbose|/verbose              : print verbose output. can be specified multiple times\n" <<
-	    " --gen-dash-from-secret|-g|         \n" <<
-	    "   /genDashFromSecret               : generate dash-cli from-secret output\n" <<
-	    " --print-json|-j|/printJSON         : print JSON keypairs (default)\n" <<
-	    //" --json-seed-file=FILE              : TODO\n" <<
+	    " -s, --static-seed                   : generate keypairs using static seed\n" <<
+	    " -h, --help                          : print this help screen\n" <<
+	    " -v, --verbose                       : print verbose output. can be specified multiple times\n" <<
+	    " -V, --version                       : print version\n" <<
+	    " -g, --gen-dash-from-secret          : generate dash-cli from-secret output\n" <<
+	    " -j, --print-json                    : print JSON keypairs (default)\n" <<
 	    "\n" <<
 	    "version: " << DASH_BLS_VERSION << "\n" <<
 	    "project url: https://github.com/wmerfalen/bls-signatures\n" <<
@@ -146,31 +148,60 @@ static void usage(const char* exe) {
 }
 int main(int argc,char** argv) {
 	int format = JSON_KEYPAIR;
-	static const std::vector<std::string> help_list{"--help","-h","/?"};
-	static const std::vector<std::string> static_seed_list{"--static-seed","-s","/s","/staticSeed"};
-	static const std::vector<std::string> verbose_list{"--verbose","-v","/verbose"};
-	static const std::vector<std::string> dash_cli_from_secret_list{"--gen-dash-from-secret","-g","/genDashFromSecret"};
-	static const std::vector<std::string> print_json_list{"--print-json","-j","/printJSON"};
+	static const std::vector<std::string> help_list{"--help","-h"};
+	static const std::vector<std::string> static_seed_list{"--static-seed","-s"};
+	static const std::vector<std::string> verbose_list{"--verbose","-v"};
+	static const std::vector<std::string> dash_cli_from_secret_list{"--gen-dash-from-secret","-g"};
+	static const std::vector<std::string> print_json_list{"--print-json","-j"};
+	static const std::vector<std::string> version_list{"--version","-V"};
 	bool do_static = false;
+	bool recognized_flag = false;
+	bool show_usage = false;
+	std::vector<std::string> unrecognized_flags;
 	if(argc > 1) {
 		for(uint8_t i = 1; i < argc; i++) {
+			recognized_flag = false;
 			std::string s(argv[i]);
 			if(multi_cmp_or(s,help_list)) {
-				usage(argv[0]);
-				return 3;
+				show_usage = true;
+				continue;
+			}
+			if(multi_cmp_or(s,version_list)) {
+				version();
+				return 0;
 			}
 			if(multi_cmp_or(s,static_seed_list)) {
 				do_static = true;
+				recognized_flag = true;
 			}
 			if(multi_cmp_or(s,verbose_list)) {
+				recognized_flag = true;
 				++verbosity;
 			}
 			if(multi_cmp_or(s,dash_cli_from_secret_list)) {
+				recognized_flag = true;
 				format = (format ^ DASH_FROM_SECRET_COMMAND);
 			}
 			if(multi_cmp_or(s,print_json_list)) {
+				recognized_flag = true;
 				format = (format ^ JSON_KEYPAIR);
 			}
+
+			if(!recognized_flag) {
+				unrecognized_flags.push_back(s);
+				continue;
+			}
+		}
+		if(unrecognized_flags.size()) {
+			for(std::size_t i=0; i < unrecognized_flags.size(); ++i) {
+				std::cerr << "error '" << unrecognized_flags[i] << "' is not a recognized flag\n";
+			}
+			usage(argv[0]);
+			return 4;
+		}
+		if(show_usage) {
+			usage(argv[0]);
+			return 0;
 		}
 	}
 	if(do_static) {

@@ -83,4 +83,7 @@ else
 	echo 'SUCCESS'
 fi
 
-#ldd $BUILD_DIR/src/runtest
+BLS_BIN="${BUILD_DIR}/src/bls"
+
+mv $BUILD_DIR/src/runtest $BLS_BIN
+chmod +x $BLS_BIN
