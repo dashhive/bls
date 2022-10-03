@@ -129,16 +129,5 @@ tar xvzf ./ubuntu-22-04-arm64.tar.gz
 - [x] Ubuntu Jammy Jellyfish ARM64
 - [x] Debian Bullseye x86-64
 
-```
-Distributor ID:	Devuan
-Description:	Devuan GNU/Linux 4 (chimaera)
-Release:	4
-Codename:	chimaera
-
-cmake version 3.18.4
-
-CMake suite maintained and supported by Kitware (kitware.com/cmake).
-```
-
 # Version
 v.1.0.0
