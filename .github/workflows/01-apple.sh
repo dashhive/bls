@@ -5,7 +5,8 @@ UTILS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 UTILS_DIR="${UTILS_DIR}/utils"
 
 SOURCE_DIR="$1"
-ARCHITECTURE="$2"
+TARGZ="$2"
+BRANCH="$3"
 
 echo $SOURCE_DIR
 ls $SOURCE_DIR
@@ -68,7 +69,14 @@ cmake ..
 
 make 
 
-$BUILD_DIR/src/runtest -s |
+RUNTEST="${BUILD_DIR}/src/runtest"
+EXE="${BUILD_DIR}/bls"
+
+mv "$RUNTEST" "$EXE"
+
+chmod +x "$EXE"
+
+$EXE -s |
 	tr -d '[:space:]' |
 	grep '{"secret":"003206f418c701193458c013120c5906dc12663ad1520c3e596eb6092c14fe16","public":"86267afa0bc64fb10757afa93198acaf353b11fae85d19e7265f3825abe70501e68c5bc7c816c3c57b1ff7a74298a32f"}'
 
@@ -78,9 +86,5 @@ else
 	echo 'SUCCESS'
 fi
 
-otool -L $BUILD_DIR/src/runtest
-
-BLS_BIN="${BUILD_DIR}/src/bls"
-
-mv $BUILD_DIR/src/runtest $BLS_BIN
-chmod +x $BLS_BIN
+cd "${BUILD_DIR}"
+tar cvzf $TARGZ bls

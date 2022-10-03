@@ -4,8 +4,10 @@ CMAKE_URL=https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.
 UTILS_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 UTILS_DIR="${UTILS_DIR}/utils"
 
+
 SOURCE_DIR="$1"
-ARCHITECTURE="$2"
+TARGZ="$2"
+BRANCH="$3"
 
 echo $SOURCE_DIR
 ls $SOURCE_DIR
@@ -76,8 +78,8 @@ make
 RUNTEST="${BUILD_DIR}/src/runtest"
 EXE="${BUILD_DIR}/bls"
 
-chmod +x $EXE
 mv $RUNTEST $EXE
+chmod +x $EXE
 
 $EXE -s |
 	tr -d '[:space:]' |
@@ -89,10 +91,8 @@ else
 	echo 'SUCCESS'
 fi
 
-BLS_BIN="${BUILD_DIR}/src/bls"
+cd $BUILD_DIR
 
-mv $BUILD_DIR/src/runtest $BLS_BIN
-chmod +x $BLS_BIN
-TARGZ="${BUILD_DIR}/$2"
+tar cvzf $TARGZ bls
 
-tar cvzf $TARGZ $EXE
+#ldd $BUILD_DIR/src/runtest
