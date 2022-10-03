@@ -65,6 +65,19 @@ make
 bls --version
 ```
 
+
+### Install
+
+**Mac**, **Linux**:
+
+```bash
+curl -sS https://webinstall.dev/bls | bash
+```
+
+**Windows 10**:
+
+Not supported
+
 # Install via Github Releases
 
 ## Macos 11
