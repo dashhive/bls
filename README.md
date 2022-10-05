@@ -65,6 +65,28 @@ make
 bls --version
 ```
 
+# How to Build on Windows
+1) Make sure you [download and install Cmake](https://cmake.org/download/)
+```
+git clone 'https://github.com/dashhive/bls'
+cd bls
+
+mkdir build
+cd build
+cmake ..
+
+```
+
+The above commands will create a `bls.sln` that you will have to open in [Visual Studio](https://visualstudio.microsoft.com/) *IMPORTANT: Visual Studio is not the same as Visual Studio Code!*
+
+The community edition of Visual Studio is free.
+
+Once you've created the `bls.sln` file, you will need to open that inside of Visual Studio.
+
+Part of the build targets is `runtest`. Right click on that and click `Build`.
+
+That will create a `runtest.exe` file depending on what your target is. Out of the box, you may find that exe to exist somewhere in `bls\Debug\x64\runtest.exe`. Using `explorer.exe`'s find function would be the best way to find this. Or in Visual Studio you might be able to browse to where that exe is.
+
 
 ### Install
 
@@ -73,10 +95,6 @@ bls --version
 ```bash
 curl -sS https://webinstall.dev/bls | bash
 ```
-
-**Windows 10**:
-
-Not supported
 
 # Install via Github Releases
 
@@ -115,6 +133,12 @@ tar xvzf ./ubuntu-22-04-arm64.tar.gz
 ./bls
 ```
 
+## Windows
+** NOTE: Windows support is experimental as of version `v1.0.0` **
+Download the `windows-x86-64-bls.zip` (or the `.tar.gz` if you prefer) file from the official release at: https://github.com/dashhive/bls/releases/tag/v1.0.0
+
+Unzip the file and run `./bls.exe`
+
 # TODO
 - [ ] Workflow for building on Linux arm64 
 - [ ] Workflow for building on Windows x86-64, arm64
@@ -128,6 +152,9 @@ tar xvzf ./ubuntu-22-04-arm64.tar.gz
 - [x] Ubuntu Jammy Jellyfish x86-64
 - [x] Ubuntu Jammy Jellyfish ARM64
 - [x] Debian Bullseye x86-64
+- [x] Windows x86-64 (experimental)
+	- note: Windows support is experimental as of version `v1.0.0`
+	- want to earn some Dash? If you help us QA the Windows version, we will pay you in Dash
 
 # Version
 v.1.0.0
