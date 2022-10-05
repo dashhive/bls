@@ -86,7 +86,7 @@ Once you've created the `bls.sln` file, you will need to open that inside of Vis
 
 Part of the build targets is `runtest`. Right click on that and click `Build`.
 
-That will create a `runtest.exe` file depending on what your target is. Out of the box, you may find that exe to exist somewhere in `bls\Debug\x64\runtest.exe`. Using `explorer.exe`'s find function would be the best way to find this. Or in Visual Studio you might be able to browse to where that exe is.
+That will create a `bls.exe` file depending on what your target is. Out of the box, you may find that exe to exist somewhere in `bls\build\Debug\src\bls.exe`. Using `explorer.exe`'s find function would be the best way to find this. Or in Visual Studio you might be able to browse to where that exe is.
 
 
 ### Install
