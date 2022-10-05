@@ -434,9 +434,7 @@ tar xvzf ./ubuntu-22-04-arm64.tar.gz
 ```
 
 ## Windows
-
-### NOTE: Windows support is experimental as of version `v1.0.0`
-
+### NOTE: Windows support is experimental
 Download the `windows-x86-64-bls.zip` (or the `.tar.gz` if you prefer) file from the official release at: https://github.com/dashhive/bls/releases/tag/v1.0.0
 
 Unzip the file and run `./bls.exe`
