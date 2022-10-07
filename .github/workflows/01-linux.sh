@@ -83,7 +83,7 @@ chmod +x $EXE
 
 $EXE -s |
 	tr -d '[:space:]' |
-	grep '{"secret":"003206f418c701193458c013120c5906dc12663ad1520c3e596eb6092c14fe16","public":"86267afa0bc64fb10757afa93198acaf353b11fae85d19e7265f3825abe70501e68c5bc7c816c3c57b1ff7a74298a32f"}'
+	grep '{"secret":"377091f0e728463bc2da7d546c53b9f6b81df4a1cc1ab5bf29c5908b7151a32d","public":"06243290bbcbfd9ae75bdece7981965350208eb5e99b04d5cd24e955ada961f8c0a162dee740be7bdc6c3c0613ba2eb1"}'
 
 if [[ $? -ne 0 ]]; then
 	echo 'deterministic keypair invalid'
