@@ -1,5 +1,12 @@
 # bls
+
 Implements [BLS signatures](https://github.com/Chia-Network/bls-signatures) with aggregation using [relic toolkit](https://github.com/relic-toolkit/relic) for cryptographic primitives (pairings, EC, hashing) according to the [IETF BLS RFC](https://datatracker.ietf.org/doc/draft-irtf-cfrg-bls-signature/) with [these curve parameters](https://datatracker.ietf.org/doc/draft-irtf-cfrg-pairing-friendly-curves/) for BLS12-381.
+
+# Table of Contents
+
+- Usage
+- Build
+- Install
 
 # Usage
 
