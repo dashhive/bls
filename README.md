@@ -87,6 +87,7 @@ If `--count N` is used with `--generate-seed`, the utility will generate `N` ran
 
 ```json
 {"seeds":["5af028b010bfedb52ec0f635eb8c83ccef9539d4431ae803c69681878791715a","0bb029fc53884bd4599453a14828b31020eb41135c0d0829d290dc49d471b68d","d5e9d8edbad86432a1b871bc09bfbb59d241ab916f1cbc3fb01621274b5094e1"]}
+```
 
 # or
 
