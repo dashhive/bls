@@ -29,16 +29,23 @@ Implements [BLS signatures](https://github.com/Chia-Network/bls-signatures) with
 ```
 
 ## Generate using the hard-coded static seed:
+
 ```sh
 ./bls --from-example-seed
+```
+
+```json
 {"secret":"377091f0e728463bc2da7d546c53b9f6b81df4a1cc1ab5bf29c5908b7151a32d","public":"06243290bbcbfd9ae75bdece7981965350208eb5e99b04d5cd24e955ada961f8c0a162dee740be7bdc6c3c0613ba2eb1"}
+```
 
 # or:
 
+```sh
 ./bls -s
 ```
 
 ## Generate using a completely random seed:
+
 ```sh
 ./bls
 ```
@@ -287,16 +294,20 @@ tar xvzf ./ubuntu-22-04-arm64.tar.gz
 ```
 
 ## Windows
+
 ### NOTE: Windows support is experimental as of version `v1.0.0`
+
 Download the `windows-x86-64-bls.zip` (or the `.tar.gz` if you prefer) file from the official release at: https://github.com/dashhive/bls/releases/tag/v1.0.0
 
 Unzip the file and run `./bls.exe`
 
 # TODO
+
 - [ ] Workflow for building on Linux arm64 
 - [ ] Workflow for building on Windows x86-64, arm64
 
 # Environments where this has been tested
+
 - [x] Devuan Chimaera x86-64
 - [x] MacOS / M1
 - [x] Raspberry Pi 4
