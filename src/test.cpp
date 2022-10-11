@@ -280,7 +280,9 @@ std::string generate_seed() {
 	while(true) {
 		try {
 			DEBUG("Trying to generate random seed...");
-			return Util::HexStr(getRandomSeed());
+			auto seed = getRandomSeed();
+			auto key = aug_generate_sk_from_seed(seed);
+			return Util::HexStr(seed);
 		} catch(const std::exception& e) {
 			DEBUG("Caught exception: ");
 			DEBUG(e.what());
