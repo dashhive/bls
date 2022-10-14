@@ -1,0 +1,27 @@
+{
+  "name": "bls",
+  "version": "1.0.0",
+  "description": "Implements [BLS signatures](https://github.com/Chia-Network/bls-signatures) with aggregation using [relic toolkit](https://github.com/relic-toolkit/relic) for cryptographic primitives (pairings, EC, hashing) according to the [IETF BLS RFC](https://datatracker.ietf.org/doc/draft-irtf-cfrg-bls-signature/) with [these curve parameters](https://datatracker.ietf.org/doc/draft-irtf-cfrg-pairing-friendly-curves/) for BLS12-381.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "prettier": "^2.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"prettier": "npx prettier --config .prettierrc.json --write README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/wmerfalen/bls.git"
+  },
+  "author": "William Merfalen <null@fluxkraft-os.net> (https://github.com/wmerfalen)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wmerfalen/bls/issues"
+  },
+  "homepage": "https://github.com/wmerfalen/bls#readme"
+}
