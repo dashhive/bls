@@ -439,6 +439,25 @@ Download the `windows-x86-64-bls.zip` (or the `.tar.gz` if you prefer) file from
 
 Unzip the file and run `./bls.exe`
 
+# Automating releases via github actions
+If you create a tag that starts with 'v' and is followed by numbers and dots, then the github actions workflow will be triggered and a build will be created along with a release.
+## Preqrequisites
+- You must setup the following secret:
+```sh
+PERSONAL_ACCESS_TOKEN
+```
+
+And set the value to whoever's personal access token that will be used to call the releases API. See the Settings page for how to setup your secrets. 
+
+To trigger a release, you might run the following script:
+```sh
+git tag v2.0
+git push origin --tags
+```
+
+That's it!
+
+
 # TODO
 
 -   [ ] Workflow for building on Linux arm64
