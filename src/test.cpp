@@ -315,14 +315,13 @@ static void usage(const char* exe) {
 	    "Options:\n" <<
 	    " --seed N                            : use hexadecimal seed N where N is 64 hexadecimal characters\n" <<
 	    " -F N,fromsecret N, --from-secret N  : generate keypairs using N as the secret key\n" <<
-	    " -G, --generate-seed                 : outputs a randomly generated seed that can be passed to --seed\n" <<
-	    " -c N, --count N                     : if -G is also specified, generate N random seeds\n" <<
+	    " -g, --generate-seed                 : outputs a randomly generated seed that can be passed to --seed\n" <<
+	    " -c N, --count N                     : if -g is also specified, generate N random seeds\n" <<
 	    " -i N, --index N                     : derive the Nth child keypair. can be a CSV\n" <<
 	    " -s, --from-example-seed             : generate keypairs using static seed\n" <<
 	    " -h, --help                          : print this help screen\n" <<
 	    " -v, --verbose                       : print verbose output. can be specified multiple times\n" <<
 	    " -V, --version                       : print version\n" <<
-	    " -g, --gen-dash-from-secret          : generate dash-cli from-secret output\n" <<
 	    "\n" <<
 	    "version: " << DASH_BLS_VERSION << "\n" <<
 	    "project url: https://github.com/dashhive/bls\n" <<
@@ -334,13 +333,14 @@ int main(int argc,char** argv) {
 	static const std::vector<std::string> help_list{"--help","-h"};
 	static const std::vector<std::string> static_seed_list{"--from-example-secret","-s"};
 	static const std::vector<std::string> verbose_list{"--verbose","-v"};
-	static const std::vector<std::string> dash_cli_from_secret_list{"--gen-dash-from-secret","-g"};
+    // TODO remove this flag
+	static const std::vector<std::string> dash_cli_from_secret_list{"--gen-dash-from-secret","-G"};
 	static const std::vector<std::string> print_json_list{"--print-json","-j"};
 	static const std::vector<std::string> version_list{"--version","-V"};
 	static const std::vector<std::string> from_secret_list{"fromsecret","--from-secret","-F"};
 	static const std::vector<std::string> from_seed_list{"--seed"};
 	static const std::vector<std::string> index_list{"-i","--index"};
-	static const std::vector<std::string> generate_seed_list{"-G","--generate-seed"};
+	static const std::vector<std::string> generate_seed_list{"-g","--generate-seed"};
 	static const std::vector<std::string> count_list{"-c","--count"};
 	bool do_static = false;
 	bool recognized_flag = false;
@@ -564,7 +564,7 @@ int main(int argc,char** argv) {
 	 */
 	if(indices.size()) {
 		/**
-		 * If the user specified -G -c N
+		 * If the user specified -g -c N
 		 *
 		 * -- note that N can be a csv. If that's the case, we loop over the csv
 		 *  values and take those indices and print them
