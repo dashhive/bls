@@ -1,301 +1,203 @@
-# BLS Signatures implementation
+# bls
 
-![Build](https://github.com/Chia-Network/bls-signatures/workflows/Build/badge.svg)
-![PyPI](https://img.shields.io/pypi/v/blspy?logo=pypi)
-![PyPI - Format](https://img.shields.io/pypi/format/blspy?logo=pypi)
-![GitHub](https://img.shields.io/github/license/Chia-Network/bls-signatures?logo=Github)
+Implements [BLS signatures](https://github.com/Chia-Network/bls-signatures) with aggregation using [relic toolkit](https://github.com/relic-toolkit/relic) for cryptographic primitives (pairings, EC, hashing) according to the [IETF BLS RFC](https://datatracker.ietf.org/doc/draft-irtf-cfrg-bls-signature/) with [these curve parameters](https://datatracker.ietf.org/doc/draft-irtf-cfrg-pairing-friendly-curves/) for BLS12-381.
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/Chia-Network/bls-signatures.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Chia-Network/bls-signatures/alerts/)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/Chia-Network/bls-signatures.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Chia-Network/bls-signatures/context:javascript)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/Chia-Network/bls-signatures.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Chia-Network/bls-signatures/context:python)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/Chia-Network/bls-signatures.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Chia-Network/bls-signatures/context:cpp)
+# Table of Contents
 
-NOTE: THIS LIBRARY IS NOT YET FORMALLY REVIEWED FOR SECURITY
+-   Usage
+-   Install
+-   Examples
+-   Build
 
-NOTE: THIS LIBRARY WAS SHIFTED TO THE IETF BLS SPECIFICATION ON 7/16/20
+# Usage
 
-Implements BLS signatures with aggregation using [relic toolkit](https://github.com/relic-toolkit/relic)
-for cryptographic primitives (pairings, EC, hashing) according to the
-[IETF BLS RFC](https://datatracker.ietf.org/doc/draft-irtf-cfrg-bls-signature/)
-with [these curve parameters](https://datatracker.ietf.org/doc/draft-irtf-cfrg-pairing-friendly-curves/)
-for BLS12-381.
-
-Features:
-
-* Non-interactive signature aggregation following IETF specification
-* Works on Windows, Mac, Linux, BSD
-* Efficient verification using Proof of Posssesion (only one pairing per distinct message)
-* Aggregate public keys and private keys
-* [EIP-2333](https://eips.ethereum.org/EIPS/eip-2333) key derivation (including unhardened BIP-32-like keys)
-* Key and signature serialization
-* Batch verification
-* [Python bindings](https://github.com/Chia-Network/bls-signatures/tree/main/python-bindings)
-* [Pure python bls12-381 and signatures](https://github.com/Chia-Network/bls-signatures/tree/main/python-impl)
-* [JavaScript bindings](https://github.com/Chia-Network/bls-signatures/tree/main/js-bindings) (currently out of date - a great first issue!)
-
-## Before you start
-
-This library uses minimum public key sizes (MPL). A G2Element is a signature (96 bytes), and a G1Element is a public key (48 bytes). A private key is a 32 byte integer. There are three schemes: Basic, Augmented, and ProofOfPossession. Augmented should be enough for most use cases, and ProofOfPossession can be used where verification must be fast.
-
-## Import the library
-
-```c++
-#include "bls.hpp"
-using namespace bls;
+```sh
+bls
 ```
 
-## Creating keys and signatures
-
-```c++
-// Example seed, used to generate private key. Always use
-// a secure RNG with sufficient entropy to generate a seed (at least 32 bytes).
-vector<uint8_t> seed = {0,  50, 6,  244, 24,  199, 1,  25,  52,  88,  192,
-                        19, 18, 12, 89,  6,   220, 18, 102, 58,  209, 82,
-                        12, 62, 89, 110, 182, 9,   44, 20,  254, 22};
-
-PrivateKey sk = AugSchemeMPL().KeyGen(seed);
-G1Element pk = sk.GetG1Element();
-
-vector<uint8_t> message = {1, 2, 3, 4, 5};  // Message is passed in as a byte vector
-G2Element signature = AugSchemeMPL().Sign(sk, message);
-
-// Verify the signature
-bool ok = AugSchemeMPL().Verify(pk, message, signature));
+```json
+{
+    "secret": "003f500d9a6fecda122ce9db1e8c931f05758517806cfe9060f2c7c1035c0a67",
+    "public": "0ffaa0ea8a1a665cbabc7fea1c588476ae954026eb7647bb6043e0958d3cbf004cca7bf57af1646b92b9d1205bd25911"
+}
 ```
 
-## Serializing keys and signatures to bytes
+# Options
 
-```c++
-vector<uint8_t> skBytes = sk.Serialize();
-vector<uint8_t> pkBytes = pk.Serialize();
-vector<uint8_t> signatureBytes = signature.Serialize();
-
-cout << Util::HexStr(skBytes) << endl;    // 32 bytes printed in hex
-cout << Util::HexStr(pkBytes) << endl;    // 48 bytes printed in hex
-cout << Util::HexStr(signatureBytes) << endl;  // 96 bytes printed in hex
+```sh
+  --seed N                            : use hexadecimal seed N where N is 64 hexadecimal characters
+  -F S,fromsecret S, --from-secret S  : generate keypairs using S as the secret key
+  -g, --generate-seed                 : outputs a randomly generated seed that can be passed to --seed
+  -c N, --count N                     : if -g is also specified, generate N random seeds
+  -i N, --index N                     : derive the Nth child keypair. can be a CSV
+  -s, --from-example-seed             : generate keypairs using static seed
+  -h, --help                          : print this help screen
+  -v, --verbose                       : print verbose output. can be specified multiple times
+  -V, --version                       : print version
+  -j, --print-json                    : print JSON keypairs (default)
 ```
 
-## Loading keys and signatures from bytes
+# Install
 
-```c++
-// Takes vector of 32 bytes
-PrivateKey skc = PrivateKey::FromByteVector(skBytes);
+## Mac, Linux
 
-// Takes vector of 48 bytes
-pk = G1Element::FromByteVector(pkBytes);
-
-// Takes vector of 96 bytes
-signature = G2Element::FromByteVector(signatureBytes);
+```sh
+curl -sS https://webi.sh/bls | sh
 ```
 
-## Create aggregate signatures
+## Windows
 
-```c++
-// Generate some more private keys
-seed[0] = 1;
-PrivateKey sk1 = AugSchemeMPL().KeyGen(seed);
-seed[0] = 2;
-PrivateKey sk2 = AugSchemeMPL().KeyGen(seed);
-vector<uint8_t> message2 = {1, 2, 3, 4, 5, 6, 7};
-
-// Generate first sig
-G1Element pk1 = sk1.GetG1Element();
-G2Element sig1 = AugSchemeMPL().Sign(sk1, message);
-
-// Generate second sig
-G1Element pk2 = sk2.GetG1Element();
-G2Element sig2 = AugSchemeMPL().Sign(sk2, message2);
-
-// Signatures can be non-interactively combined by anyone
-G2Element aggSig = AugSchemeMPL().Aggregate({sig1, sig2});
-
-ok = AugSchemeMPL().AggregateVerify({pk1, pk2}, {message, message2}, aggSig);
+```pwsh
+curl.exe https://webi.ms/bls | powershell
 ```
 
-## Arbitrary trees of aggregates
+## GitHub Releases
 
-```c++
-seed[0] = 3;
-PrivateKey sk3 = AugSchemeMPL().KeyGen(seed);
-G1Element pk3 = sk3.GetG1Element();
-vector<uint8_t> message3 = {100, 2, 254, 88, 90, 45, 23};
-G2Element sig3 = AugSchemeMPL().Sign(sk3, message3);
+1. Download from <https://github.com/dashhive/bls/releases>
+2. Move the `bls` file to a place in your PATH, such as `~/bin/`
+3. **_macOS only_** remove the quarantine bit:
+    ```sh
+    xattr -d com.apple.quarantine ~/bin/xsv
+    ```
 
+# Example Usage
 
-G2Element aggSigFinal = AugSchemeMPL().Aggregate({aggSig, sig3});
-ok = AugSchemeMPL().AggregateVerify({pk1, pk2, pk3}, {message, message2, message3}, aggSigFinal);
+## Generate Example Secret
 
+```sh
+bls --from-example-secret
+
+# same as
+bls --seed 003206f418c701193458c013120c5906dc12663ad1520c3e596eb6092c14fe16
 ```
 
-## Very fast verification with Proof of Possession scheme
-
-```c++
-// If the same message is signed, you can use Proof of Posession (PopScheme) for efficiency
-// A proof of possession MUST be passed around with the PK to ensure security.
-
-G2Element popSig1 = PopSchemeMPL().Sign(sk1, message);
-G2Element popSig2 = PopSchemeMPL().Sign(sk2, message);
-G2Element popSig3 = PopSchemeMPL().Sign(sk3, message);
-G2Element pop1 = PopSchemeMPL().PopProve(sk1);
-G2Element pop2 = PopSchemeMPL().PopProve(sk2);
-G2Element pop3 = PopSchemeMPL().PopProve(sk3);
-
-ok = PopSchemeMPL().PopVerify(pk1, pop1);
-ok = PopSchemeMPL().PopVerify(pk2, pop2);
-ok = PopSchemeMPL().PopVerify(pk3, pop3);
-G2Element popSigAgg = PopSchemeMPL().Aggregate({popSig1, popSig2, popSig3});
-
-ok = PopSchemeMPL().FastAggregateVerify({pk1, pk2, pk3}, message, popSigAgg);
-
-// Aggregate public key, indistinguishable from a single public key
-G1Element popAggPk = pk1 + pk2 + pk3;
-ok = PopSchemeMPL().Verify(popAggPk, message, popSigAgg);
-
-// Aggregate private keys
-PrivateKey aggSk = PrivateKey::Aggregate({sk1, sk2, sk3});
-ok = (PopSchemeMPL().Sign(aggSk, message) == popSigAgg);
+```json
+{
+    "secret": "377091f0e728463bc2da7d546c53b9f6b81df4a1cc1ab5bf29c5908b7151a32d",
+    "public": "06243290bbcbfd9ae75bdece7981965350208eb5e99b04d5cd24e955ada961f8c0a162dee740be7bdc6c3c0613ba2eb1"
+}
 ```
 
-## HD keys using [EIP-2333](https://github.com/ethereum/EIPs/pull/2333)
+## Generate Public Key from Secret
 
-```c++
-// You can derive 'child' keys from any key, to create arbitrary trees. 4 byte indeces are used.
-// Hardened (more secure, but no parent pk -> child pk)
-PrivateKey masterSk = AugSchemeMPL().KeyGen(seed);
-PrivateKey child = AugSchemeMPL().DeriveChildSk(masterSk, 152);
-PrivateKey grandChild = AugSchemeMPL().DeriveChildSk(child, 952)
-
-// Unhardened (less secure, but can go from parent pk -> child pk), BIP32 style
-G1Element masterPk = masterSk.GetG1Element();
-PrivateKey childU = AugSchemeMPL().DeriveChildSkUnhardened(masterSk, 22);
-PrivateKey grandchildU = AugSchemeMPL().DeriveChildSkUnhardened(childU, 0);
-
-G1Element childUPk = AugSchemeMPL().DeriveChildPkUnhardened(masterPk, 22);
-G1Element grandchildUPk = AugSchemeMPL().DeriveChildPkUnhardened(childUPk, 0);
-
-ok = (grandchildUPk == grandchildU.GetG1Element();
+```sh
+bls --from-secret 377091f0e728463bc2da7d546c53b9f6b81df4a1cc1ab5bf29c5908b7151a32d
 ```
 
-## Build
+```json
+{
+    "secret": "377091f0e728463bc2da7d546c53b9f6b81df4a1cc1ab5bf29c5908b7151a32d",
+    "public": "06243290bbcbfd9ae75bdece7981965350208eb5e99b04d5cd24e955ada961f8c0a162dee740be7bdc6c3c0613ba2eb1"
+}
+```
 
-Cmake 3.14+, a c++ compiler, and python3 (for bindings) are required for building.
+## Generate seeds:
 
-```bash
+```sh
+bls --generate-seed --count 1
+```
+
+```json
+{
+    "seeds": [
+        "f1804bbbde425df07be251ee98db14dec28998c2c0b4341a6ebacdb357771b61"
+    ]
+}
+```
+
+## Generate Child keypairs:
+
+```sh
+bls --seed 003206f418c701193458c013120c5906dc12663ad1520c3e596eb6092c14fe16 -i 2,4
+
+# same as
+bls --from-secret 377091f0e728463bc2da7d546c53b9f6b81df4a1cc1ab5bf29c5908b7151a32d -i 2,4
+```
+
+```json
+{
+    "parent": {
+        "secret": "377091f0e728463bc2da7d546c53b9f6b81df4a1cc1ab5bf29c5908b7151a32d",
+        "public": "06243290bbcbfd9ae75bdece7981965350208eb5e99b04d5cd24e955ada961f8c0a162dee740be7bdc6c3c0613ba2eb1"
+    },
+    "children": [
+        {
+            "index": 2,
+            "secret": "0950f6fda6659e63436fdfeb8d1f77cc50c898230a2cffc28cbd2f69ddb9455c",
+            "public": "0847e5908729e738ca4795d1340e67d083b5e2e7429176f415daf85050b1ceef5489eb9832afe73b2195231fdf9e5b79"
+        },
+        {
+            "index": 4,
+            "secret": "4623da0da2814d6946e7a8e1164bebf3a686532a53152b56458086343288ef42",
+            "public": "90eda32100c9c7bb2970166135af8a686a00f5fef2af2efd56e27c154d3876f9156c627463b1b8fd253fb583d5abe0b7"
+        }
+    ]
+}
+```
+
+# Building Manually
+
+## Linux
+
+```sh
+sudo apt -y install build-essential cmake
+git clone 'https://github.com/dashhive/bls'
+cd ./bls/
+
+mkdir ./build/
+cd ./build/
+cmake ..
+
+make
+
+# copy the binary to some place within your path (optional)
+# cp ./src/runtest ~/bin/bls
+
+bls --version
+```
+
+## Windows
+
+Make sure you [download and install Cmake](https://cmake.org/download/)
+
+```sh
+git clone 'https://github.com/dashhive/bls'
+cd bls
+
 mkdir build
 cd build
-cmake ../
-cmake --build . -- -j 6
+cmake ..
 ```
 
-### Run tests
+The above commands will create a `bls.sln` that you will have to open in [Visual Studio](https://visualstudio.microsoft.com/)
 
-```bash
-./build/src/runtest
+**IMPORTANT**: Visual Studio is not the same as Visual Studio Code!
+
+The community edition of Visual Studio is free.
+
+Once you've created the `bls.sln` file, you will need to open that inside of Visual Studio.
+
+Part of the build targets is `runtest`. Right click on that and click `Build`.
+
+That will create a `bls.exe` file depending on what your target is. Out of the box, you may find that exe to exist somewhere in `bls\build\Debug\src\bls.exe`. Using `explorer.exe`'s find function would be the best way to find this. Or in Visual Studio you might be able to browse to where that exe is.
+
+# Automating releases via GitHub Actions
+
+If you create a tag that starts with 'v' and is followed by numbers and dots, then the github actions workflow will be triggered and a build will be created along with a release.
+
+## Preqrequisites
+
+-   You must setup the following secret:
+
+```sh
+PERSONAL_ACCESS_TOKEN
 ```
 
-### Run benchmarks
+And set the value to whoever's personal access token that will be used to call the releases API. See the Settings page for how to setup your secrets.
 
-```bash
-./build/src/runbench
+To trigger a release, you might run the following script:
+
+```sh
+git tag v1.1.0
+git push origin --tags
 ```
-
-On a 3.5 GHz i7 Mac, verification takes about 1.1ms per signature, and signing takes 1.3ms.
-
-### Link the library to use it
-
-```bash
-g++ -Wl,-no_pie -std=c++11  -Ibls-signatures/build/_deps/relic-src/include -Ibls-signatures/build/_deps/relic-build/include -Ibls-signatures/src -L./bls-signatures/build/ -l bls yourapp.cpp
-```
-
-## Notes on dependencies
-
-Libsodium and GMP are optional dependencies: libsodium gives secure memory
-allocation, and GMP speeds up the library by ~ 3x. MPIR is used on Windows via
-GitHub Actions instead. To install them, either download them from github and
-follow the instructions for each repo, or use a package manager like APT or
-brew. You can follow the recipe used to build python wheels for multiple
-platforms in `.github/workflows/`. libsodium is dynamically linked unless
-the environment variable $CIBUILDWHEEL is set which will then cause
-libsodium to statically link.
-
-## Discussion
-
-Discussion about this library and other Chia related development is in the #dev
-channel of Chia's [public Keybase channels](https://keybase.io/team/chia_network.public).
-
-## Code style
-
-* Always use vector<uint8_t> for bytes
-* Use size_t for size variables
-* Uppercase method names
-* Prefer static constructors
-* Avoid using templates
-* Objects allocate and free their own memory
-* Use cpplint with default rules
-* Use SecAlloc and SecFree when handling secrets
-
-## ci Building
-
-The primary build process for this repository is to use GitHub Actions to
-build binary wheels for MacOS, Linux (x64 and aarch64), and Windows and publish
-them with a source wheel on PyPi. MacOS ARM64 is supported but not automated
-due to a lack of M1 CI runners. See `.github/workflows/build.yml`. CMake uses
-[FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html)
-to download [pybind11](https://github.com/pybind/pybind11) for the Python
-bindings and relic from a chia relic forked repository for Windows. Building
-is then managed by [cibuildwheel](https://github.com/joerick/cibuildwheel).
-Further installation is then available via `pip install blspy` e.g. The ci
-builds include GMP and a statically linked libsodium.
-
-## Contributing and workflow
-
-Contributions are welcome and more details are available in chia-blockchain's
-[CONTRIBUTING.md](https://github.com/Chia-Network/chia-blockchain/blob/main/CONTRIBUTING.md).
-
-The main branch is usually the currently released latest version on PyPI.
-Note that at times bls-signatures/blspy will be ahead of the release version
-that chia-blockchain requires in it's main/release version in preparation
-for a new chia-blockchain release. Please branch or fork main and then create
-a pull request to the main branch. Linear merging is enforced on main and
-merging requires a completed review. PRs will kick off a GitHub actions ci
-build and analysis of bls-signatures at
-[lgtm.com](https://lgtm.com/projects/g/Chia-Network/bls-signatures/?mode=list).
-Please make sure your build is passing and that it does not increase alerts
-at lgtm.
-
-## Specification and test vectors
-
-The [IETF bls draft](https://datatracker.ietf.org/doc/draft-irtf-cfrg-hash-to-curve/)
-is followed. Test vectors can also be seen in the python and cpp test files.
-
-## Libsodium license
-
-The libsodium static library is licensed under the ISC license which requires
-the following copyright notice.
-
->ISC License
->
->Copyright (c) 2013-2020
->Frank Denis \<j at pureftpd dot org\>
->
->Permission to use, copy, modify, and/or distribute this software for any
->purpose with or without fee is hereby granted, provided that the above
->copyright notice and this permission notice appear in all copies.
->
->THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
->WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
->MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
->ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
->WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
->ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
->OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-## GMP license
-
-GMP is distributed under the
-[GNU LGPL v3 license](https://www.gnu.org/licenses/lgpl-3.0.html)
-
-## Relic license
-
-Relic is used with the
-[Apache 2.0 license](https://github.com/relic-toolkit/relic/blob/master/LICENSE.Apache-2.0)
